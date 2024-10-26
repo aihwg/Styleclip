@@ -74,7 +74,8 @@ def main(args):
         lr = get_lr(t, args.lr)
         optimizer.param_groups[0]["lr"] = lr
 
-        img_gen, _ = g_ema([latent], input_is_latent=True, randomize_noise=False, input_is_stylespace=args.work_in_stylespace)
+        # img_gen, _ = g_ema([latent], input_is_latent=True, randomize_noise=False, input_is_stylespace=args.work_in_stylespace)
+        img_gen, _ = g_ema([latent], input_is_latent=True, randomize_noise=False, inject_index=None) 
 
         c_loss = clip_loss(img_gen, text_inputs)
 
@@ -103,7 +104,8 @@ def main(args):
         )
         if args.save_intermediate_image_every > 0 and i % args.save_intermediate_image_every == 0:
             with torch.no_grad():
-                img_gen, _ = g_ema([latent], input_is_latent=True, randomize_noise=False, input_is_stylespace=args.work_in_stylespace)
+                # img_gen, _ = g_ema([latent], input_is_latent=True, randomize_noise=False, input_is_stylespace=args.work_in_stylespace)
+                img_gen, _ = g_ema([latent], input_is_latent=True, randomize_noise=False)
 
             torchvision.utils.save_image(img_gen, f"results/{str(i).zfill(5)}.jpg", normalize=True, value_range=(-1, 1))
 
